@@ -3,3 +3,4 @@
 /frontend/.env
 /supabase/functions/.env
 /supabase/info.txt
+/frontend/.DS_Store
