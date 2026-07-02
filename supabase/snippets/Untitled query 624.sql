@@ -1,0 +1,1 @@
+SELECT id, scheduled_for, processed FROM public.scheduled_pushes ORDER BY id DESC LIMIT 5;
