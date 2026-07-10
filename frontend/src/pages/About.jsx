@@ -1,3 +1,5 @@
+import Header from "../components/Header";
+
 export default function About() {
-  return <h1>What is MODO?</h1>;
+  return <Header title="What is Modo?" />;
 }

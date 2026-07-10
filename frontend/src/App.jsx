@@ -6,7 +6,11 @@ import Navbar from "react-bootstrap/Navbar";
 export default function App() {
   return (
     <div className="app">
-      <Navbar>
+      <main>
+        <Outlet />
+      </main>
+
+      <Navbar fixed="bottom">
         <Container>
           <Navbar.Brand>MODO</Navbar.Brand>
           <Nav>
@@ -15,10 +19,6 @@ export default function App() {
           </Nav>
         </Container>
       </Navbar>
-
-      <main>
-        <Outlet />
-      </main>
     </div>
   );
 }
