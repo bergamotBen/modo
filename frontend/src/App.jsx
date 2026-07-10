@@ -5,21 +5,20 @@ import Navbar from "react-bootstrap/Navbar";
 
 export default function App() {
   return (
-    <div className="app">
-      <main>
-        <Outlet />
-      </main>
+    <main className="mx-4">
+      <Outlet />
 
       <Navbar fixed="bottom">
-        <Container>
-          <Navbar.Brand>MODO</Navbar.Brand>
+        <Container className="p-4">
+          <Navbar.Brand href="/">MODO</Navbar.Brand>
           <Nav>
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
+            <Nav.Link href="/done">DONE</Nav.Link>
+            <Nav.Link href="/to-do">TODO</Nav.Link>
+            <Nav.Link href="/about">ABOUT</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-    </div>
+    </main>
   );
 }
 

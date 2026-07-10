@@ -6,6 +6,8 @@ import { createRoot } from "react-dom/client";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Done from "./pages/Done.jsx";
+import Tasks from "./pages/Tasks.jsx";
 // react-bootstrap docs: https://react-bootstrap.netlify.app/
 
 /**
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/done",
+        element: <Done />,
+      },
+      {
+        path: "/to-do",
+        element: <Tasks />,
       },
     ],
   },
