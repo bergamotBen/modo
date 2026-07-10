@@ -24,13 +24,13 @@ function Timer() {
 export default function Header({ title }) {
   if (title) {
     return (
-      <Container>
+      <Container className="text-end p-2 px-lg-3">
         <h1>{title}</h1>
       </Container>
     );
   } else {
     return (
-      <Container>
+      <Container className="text-end p-2 px-lg-3">
         <h3>
           <Timer />
         </h3>
