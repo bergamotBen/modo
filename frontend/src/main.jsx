@@ -1,11 +1,12 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+// react-bootstrap docs: https://react-bootstrap.netlify.app/
 
 /**
  * 🚨 CRITICAL: PWA Service Worker Registration
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
   },
 ]);
 // Render your main React application tree
-ReactDOM.createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>,

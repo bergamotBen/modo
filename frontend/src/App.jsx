@@ -1,13 +1,20 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
 export default function App() {
   return (
     <div className="app">
-      <nav>
-        <Link to="/">Home</Link>
-        <br />
-        <Link to="/about">About</Link>
-      </nav>
+      <Navbar>
+        <Container>
+          <Navbar.Brand>MODO</Navbar.Brand>
+          <Nav>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/about">About</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
 
       <main>
         <Outlet />
