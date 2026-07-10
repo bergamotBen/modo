@@ -1,4 +1,5 @@
 import Card from "react-bootstrap/esm/Card";
+import Button from "react-bootstrap/esm/Button";
 
 export default function Task({
   text,
@@ -7,6 +8,7 @@ export default function Task({
   showButtons,
   showDetails,
   active,
+  priority,
 }) {
   let cardClass = "py-3 mx-2 mx-lg-5 mb-3";
   let border = "";
@@ -24,7 +26,7 @@ export default function Task({
   return (
     <Card border={border} className={cardClass}>
       {showPosition ? (
-        <Card.Title className="text-start px-3">#1</Card.Title>
+        <Card.Title className="text-start px-3">{priority}</Card.Title>
       ) : null}
       <Card.Text className={textClassName}>{text}</Card.Text>
 
@@ -32,7 +34,11 @@ export default function Task({
         <div className="text-end px-3 text-secondary">{details}</div>
       ) : null}
       {showButtons ? (
-        <Card.Footer className="text-end">⬆️ ⬇️ 🗑️</Card.Footer>
+        <Card.Footer className="text-end px-2 py-0">
+          <Button variant="Link" className="text-secondary">
+            ...
+          </Button>
+        </Card.Footer>
       ) : null}
     </Card>
   );

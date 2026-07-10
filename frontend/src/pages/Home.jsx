@@ -4,7 +4,7 @@ import Breaktime from "../components/Breaktime";
 import { useState } from "react";
 
 export default function Home() {
-  const [breaktime, setBreaktime] = useState(true);
+  const [breaktime, setBreaktime] = useState(false);
   return (
     <div>
       <Header />
