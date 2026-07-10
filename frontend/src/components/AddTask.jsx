@@ -32,6 +32,7 @@ export default function AddTask({ showModal, handleClose }) {
         </Modal.Body>
         <Modal.Footer className="border-0 pb-3">
           <Button type="submit">Add</Button>
+          <Button onClick={handleClose}>Cancel</Button>
         </Modal.Footer>
       </Form>
     </Modal>

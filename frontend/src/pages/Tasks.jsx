@@ -6,7 +6,12 @@ export default function Tasks() {
       <Header title="TODO" />
       <Task
         text="An incomplete task"
-        details="July 17th"
+        showButtons={true}
+        showDetails={false}
+        showPosition={true}
+      />
+      <Task
+        text="Another incomplete task"
         showButtons={true}
         showDetails={false}
         showPosition={true}

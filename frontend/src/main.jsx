@@ -4,10 +4,10 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import Home from "./pages/Home.jsx";
-import About from "./pages/About.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Done from "./pages/Done.jsx";
 import Tasks from "./pages/Tasks.jsx";
+import Stats from "./pages/Stats.jsx";
 // react-bootstrap docs: https://react-bootstrap.netlify.app/
 
 /**
@@ -42,8 +42,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about",
-        element: <About />,
+        path: "/stats",
+        element: <Stats />,
       },
       {
         path: "/done",
