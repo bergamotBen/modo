@@ -1,9 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button";
+import { useState } from "react";
+import AddTask from "./components/AddTask";
 
 export default function App() {
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleOpen = () => setShowAddModal(true);
+  const handleClose = () => setShowAddModal(false);
+  const location = useLocation();
   return (
     <main className="mx-4">
       <Outlet />
@@ -11,13 +18,42 @@ export default function App() {
       <Navbar fixed="bottom">
         <Container className="p-4">
           <Navbar.Brand href="/">MODO</Navbar.Brand>
-          <Nav>
-            <Nav.Link href="/done">DONE</Nav.Link>
-            <Nav.Link href="/to-do">TODO</Nav.Link>
-            <Nav.Link href="/about">ABOUT</Nav.Link>
+          <Nav activeKey={location.pathname}>
+            <Button
+              variant="Link"
+              className="nav-link text-secondary"
+              onClick={handleOpen}
+            >
+              ADD
+            </Button>
+            <Nav.Link
+              as={Link}
+              to="/done"
+              eventKey="/done"
+              className="text-secondary"
+            >
+              DONE
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/to-do"
+              eventKey="/to-do"
+              className="text-secondary"
+            >
+              TODO
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/stats"
+              eventKey="/stats"
+              className="text-secondary"
+            >
+              STATS
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
+      <AddTask showModal={showAddModal} handleClose={handleClose} />
     </main>
   );
 }
