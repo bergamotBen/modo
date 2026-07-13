@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import { Card, Form, Button } from "react-bootstrap";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const pageViews = {
   logIn: {
@@ -26,7 +27,9 @@ const pageViews = {
 };
 
 export default function Login() {
-  const [pageView, setPageView] = useState(pageViews.signUp);
+  const location = useLocation();
+  const initialView = location.state?.view || "logIn";
+  const [pageView, setPageView] = useState(pageViews[initialView]);
   return (
     <>
       <Header title={pageView.title} />

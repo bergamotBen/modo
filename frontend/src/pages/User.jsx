@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import ProgressGauge from "../components/ProgressGauge";
 import StreakDetail from "../components/StreakDetail";
-
+import { Link } from "react-router-dom";
 export default function User() {
   return (
     <>
@@ -28,6 +28,9 @@ export default function User() {
             <StreakDetail title="Longest streak" value={2} />
           </Col>
         </Row>
+        <Link to="/login" state={{ view: "resetPassword" }}>
+          Reset password
+        </Link>
       </Container>
     </>
   );
