@@ -1,11 +1,15 @@
-import Card from "react-bootstrap/esm/Card";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 export default function StreakDetail({ title, value }) {
   return (
-    <Card>
-      <Card.Text className="text-start p-3">
-        {title}: {value} days
-      </Card.Text>
+    <Card variant="outlined">
+      <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
+        <Typography textAlign="left">
+          {title}: {value} days
+        </Typography>
+      </CardContent>
     </Card>
   );
 }

@@ -15,6 +15,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import Task from "../components/Task";
 import Header from "../components/Header";
+import Stack from "@mui/material/Stack";
 
 function SortableTask({ id, text, priority }) {
   const {
@@ -84,7 +85,7 @@ export default function Tasks() {
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="d-flex flex-column gap-2 p-0">
+        <Stack spacing={1}>
           <SortableContext
             items={taskList.map((t) => t.id)}
             strategy={verticalListSortingStrategy}
@@ -98,7 +99,7 @@ export default function Tasks() {
               />
             ))}
           </SortableContext>
-        </div>
+        </Stack>
       </DndContext>
     </>
   );

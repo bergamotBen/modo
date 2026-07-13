@@ -4,11 +4,10 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import Home from "./pages/Home.jsx";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Done from "./pages/Done.jsx";
 import Tasks from "./pages/Tasks.jsx";
 import Stats from "./pages/Stats.jsx";
-// react-bootstrap docs: https://react-bootstrap.netlify.app/
+import { ColorModeProvider } from "./theme/ColorModeProvider.jsx";
 
 /**
  * 🚨 CRITICAL: PWA Service Worker Registration
@@ -59,6 +58,8 @@ const router = createBrowserRouter([
 // Render your main React application tree
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ColorModeProvider>
+      <RouterProvider router={router} />
+    </ColorModeProvider>
   </React.StrictMode>,
 );

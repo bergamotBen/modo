@@ -1,91 +1,94 @@
 import { Outlet, useLocation, Link } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
 import { useState } from "react";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import AddTask from "./components/AddTask";
+import { useColorMode } from "./theme/useColorMode";
 
 export default function App() {
   const [showAddModal, setShowAddModal] = useState(false);
   const handleOpen = () => setShowAddModal(true);
   const handleClose = () => setShowAddModal(false);
   const location = useLocation();
+  const { mode, toggleColorMode } = useColorMode();
+
+  const navItems = [
+    { label: "ADD", onClick: handleOpen },
+    { label: "DONE", path: "/done" },
+    { label: "TODO", path: "/to-do" },
+    { label: "STATS", path: "/stats" },
+  ];
+
   return (
-    <main className="mx-4">
+    <Box component="main" sx={{ mx: 2, pb: 10 }}>
       <Outlet />
 
-      <Navbar fixed="bottom">
-        <Container className="p-4">
-          <Navbar.Brand href="/">MODO</Navbar.Brand>
-          <Nav activeKey={location.pathname}>
-            <Button
-              variant="Link"
-              className="nav-link text-secondary"
-              onClick={handleOpen}
+      <Paper
+        elevation={3}
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1100,
+        }}
+      >
+        <Container sx={{ py: 2 }}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography
+              component={Link}
+              to="/"
+              variant="h6"
+              sx={{
+                textDecoration: "none",
+                color: "text.primary",
+                mr: "auto",
+              }}
             >
-              ADD
-            </Button>
-            <Nav.Link
-              as={Link}
-              to="/done"
-              eventKey="/done"
-              className="text-secondary"
-            >
-              DONE
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/to-do"
-              eventKey="/to-do"
-              className="text-secondary"
-            >
-              TODO
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/stats"
-              eventKey="/stats"
-              className="text-secondary"
-            >
-              STATS
-            </Nav.Link>
-          </Nav>
+              MODO
+            </Typography>
+            {navItems.map((item) =>
+              item.path ? (
+                <Button
+                  key={item.label}
+                  component={Link}
+                  to={item.path}
+                  variant="text"
+                  color="inherit"
+                  sx={{
+                    color: "text.secondary",
+                    fontWeight:
+                      location.pathname === item.path ? "bold" : "normal",
+                  }}
+                >
+                  {item.label}
+                </Button>
+              ) : (
+                <Button
+                  key={item.label}
+                  variant="text"
+                  color="inherit"
+                  onClick={item.onClick}
+                  sx={{ color: "text.secondary" }}
+                >
+                  {item.label}
+                </Button>
+              ),
+            )}
+            <IconButton onClick={toggleColorMode} color="inherit" size="small">
+              {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Stack>
         </Container>
-      </Navbar>
+      </Paper>
       <AddTask showModal={showAddModal} handleClose={handleClose} />
-    </main>
+    </Box>
   );
 }
-
-/** Reuse this soon!
-
-  import { usePushSubscription } from "./hooks/usePushSubscription";
-  import { scheduleNotification } from "./services/notifications";
-  import { PushControls } from "./components/PushSetup";
-  const { isSubscribed, loading, subscribe } = usePushSubscription();
-
-  return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-    <h1>MODO</h1>
-
-    <PushControls
-    isSubscribed={isSubscribed}
-    loading={loading}
-    subscribe={subscribe}
-    />
-
-    <button
-    onClick={() => {
-      scheduleNotification(
-        "Take a little break now, you've earned it.",
-        25,
-      );
-    }}
-    >
-    Start
-    </button>
-    </div>
-  );
-}
-*/

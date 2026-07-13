@@ -1,4 +1,5 @@
-import Container from "react-bootstrap/esm/Container";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import { useState, useEffect } from "react";
 
 function Timer() {
@@ -21,18 +22,21 @@ function Timer() {
   }, []);
   return time;
 }
+
 export default function Header({ title }) {
   if (title) {
     return (
-      <Container className="text-end mt-2 p-2 px-lg-3">
-        <h1>{title}</h1>
-      </Container>
-    );
-  } else {
-    return (
-      <Container className="text-end mt-2 p-2 px-lg-3 h1">
-        <Timer />
+      <Container sx={{ textAlign: "right", mt: 1, p: 1, px: { lg: 2 } }}>
+        <Typography variant="h1">{title}</Typography>
       </Container>
     );
   }
+
+  return (
+    <Container sx={{ textAlign: "right", mt: 1, p: 1, px: { lg: 2 } }}>
+      <Typography variant="h1" component="div">
+        <Timer />
+      </Typography>
+    </Container>
+  );
 }

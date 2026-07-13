@@ -1,14 +1,21 @@
-import Card from "react-bootstrap/esm/Card";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Typography from "@mui/material/Typography";
 
 export default function ProgressGauge({ today, value }) {
   return (
-    <Card>
-      <Card.Body className="h1 text-center m-0">{value}</Card.Body>
-      {today ? (
-        <Card.Footer className="text-center">TODAY</Card.Footer>
-      ) : (
-        <Card.Footer className="text-center">THIS WEEK</Card.Footer>
-      )}
+    <Card variant="outlined">
+      <CardContent sx={{ textAlign: "center", m: 0, py: 2 }}>
+        <Typography variant="h1" sx={{ m: 0 }}>
+          {value}
+        </Typography>
+      </CardContent>
+      <CardActions sx={{ justifyContent: "center", pb: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          {today ? "TODAY" : "THIS WEEK"}
+        </Typography>
+      </CardActions>
     </Card>
   );
 }

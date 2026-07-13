@@ -1,10 +1,28 @@
-import Card from "react-bootstrap/esm/Card";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 export default function Breaktime() {
   return (
-    <Card border="danger" className="py-3 mx-2 mb-3 mx-lg-5">
-      <Card.Title className="text-end px-3 text-danger">BREAK</Card.Title>
-      <Card.Text className="text-start px-3 text-danger">Enjoy it.</Card.Text>
+    <Card
+      variant="outlined"
+      sx={{
+        py: 1.5,
+        mx: { xs: 1, lg: 4 },
+        mb: 1.5,
+        borderColor: "error.main",
+      }}
+    >
+      <CardContent sx={{ py: 0, px: 2, "&:last-child": { pb: 0 } }}>
+        <Typography textAlign="right" color="error">
+          BREAK
+        </Typography>
+      </CardContent>
+      <CardContent sx={{ py: 1, px: 2, "&:last-child": { pb: 1.5 } }}>
+        <Typography textAlign="left" color="error">
+          Enjoy it.
+        </Typography>
+      </CardContent>
     </Card>
   );
 }
