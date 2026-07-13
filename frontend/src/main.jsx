@@ -7,7 +7,8 @@ import Home from "./pages/Home.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Done from "./pages/Done.jsx";
 import Tasks from "./pages/Tasks.jsx";
-import Stats from "./pages/Stats.jsx";
+import User from "./pages/User.jsx";
+import Login from "./pages/Login.jsx";
 // react-bootstrap docs: https://react-bootstrap.netlify.app/
 
 /**
@@ -42,16 +43,20 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/stats",
-        element: <Stats />,
-      },
-      {
         path: "/done",
         element: <Done />,
       },
       {
         path: "/to-do",
         element: <Tasks />,
+      },
+      {
+        path: "/user",
+        element: <User />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },

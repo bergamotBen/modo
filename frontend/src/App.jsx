@@ -5,6 +5,12 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import AddTask from "./components/AddTask";
+import {
+  PersonCircle,
+  PlusCircle,
+  CheckCircle,
+  ExclamationCircle,
+} from "react-bootstrap-icons";
 
 export default function App() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -24,31 +30,31 @@ export default function App() {
               className="nav-link text-secondary"
               onClick={handleOpen}
             >
-              ADD
+              <PlusCircle size={32} className="text-secondary" />
             </Button>
-            <Nav.Link
-              as={Link}
-              to="/done"
-              eventKey="/done"
-              className="text-secondary"
-            >
-              DONE
-            </Nav.Link>
             <Nav.Link
               as={Link}
               to="/to-do"
               eventKey="/to-do"
               className="text-secondary"
             >
-              TODO
+              <ExclamationCircle size={32} className="text-secondary" />
             </Nav.Link>
             <Nav.Link
               as={Link}
-              to="/stats"
-              eventKey="/stats"
+              to="/done"
+              eventKey="/done"
               className="text-secondary"
             >
-              STATS
+              <CheckCircle size={32} className="text-secondary" />
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/user"
+              eventKey="/user"
+              className="text-secondary"
+            >
+              <PersonCircle size={32} className="text-secondary" />
             </Nav.Link>
           </Nav>
         </Container>

@@ -1,14 +1,14 @@
+import Header from "../components/Header";
 import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Header from "../components/Header";
 import ProgressGauge from "../components/ProgressGauge";
 import StreakDetail from "../components/StreakDetail";
 
-export default function Stats() {
+export default function User() {
   return (
     <>
-      <Header title="STATS" />
+      <Header title="USER" />
       <Container className="p-0">
         <Row>
           <Col>
