@@ -1,9 +1,17 @@
 import Card from "react-bootstrap/esm/Card";
-import Button from "react-bootstrap/esm/Button";
-
+import { Link } from "react-router-dom";
+import {
+  PlayCircle,
+  PauseCircle,
+  StopCircle,
+  Trash3,
+  CheckCircle,
+} from "react-bootstrap-icons";
+// buttons = ['play', 'stop', 'delete', 'complete']
 export default function Task({
   text,
   details,
+  buttons,
   showPosition,
   showButtons,
   showDetails,
@@ -34,10 +42,29 @@ export default function Task({
         <div className="text-end px-3 text-secondary">{details}</div>
       ) : null}
       {showButtons ? (
-        <Card.Footer className="text-end px-2 py-0">
-          <Button variant="Link" className="text-secondary">
-            ...
-          </Button>
+        <Card.Footer className="text-end px-2 py-2">
+          {active ? (
+            buttons.includes("play") ? (
+              <Link className="mx-1">
+                <PlayCircle size={26} className="text-secondary" />
+              </Link>
+            ) : (
+              <Link className="mx-1">
+                <PauseCircle size={26} className="text-secondary" />
+              </Link>
+            )
+          ) : null}
+
+          {buttons.includes("stop") && (
+            <Link className="mx-1">
+              <StopCircle size={26} className="text-secondary" />
+            </Link>
+          )}
+          {buttons.includes("delete") && (
+            <Link className="mx-1">
+              <Trash3 size={26} className="text-secondary" />
+            </Link>
+          )}
         </Card.Footer>
       ) : null}
     </Card>

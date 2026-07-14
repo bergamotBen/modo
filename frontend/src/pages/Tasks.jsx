@@ -41,10 +41,12 @@ function SortableTask({ id, text, priority }) {
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <Task
         text={text}
-        showButtons={true}
+        showButtons={false}
         showDetails={false}
         showPosition={true}
         priority={priority}
+        buttons={[]}
+        active={false}
       />
     </div>
   );
