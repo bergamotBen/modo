@@ -13,7 +13,8 @@ export default function Home() {
         text="An in-progress task with no position and no buttons"
         showPosition={false}
         showDetails={false}
-        showButtons={false}
+        showButtons={true}
+        buttons={["play", "stop", "delete"]}
         active={true}
       />
       <Task

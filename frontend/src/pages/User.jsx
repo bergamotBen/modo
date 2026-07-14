@@ -1,14 +1,14 @@
+import Header from "../components/Header";
 import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Header from "../components/Header";
 import ProgressGauge from "../components/ProgressGauge";
 import StreakDetail from "../components/StreakDetail";
-
-export default function Stats() {
+import { Link } from "react-router-dom";
+export default function User() {
   return (
     <>
-      <Header title="STATS" />
+      <Header title="USER" />
       <Container className="p-0">
         <Row>
           <Col>
@@ -28,6 +28,9 @@ export default function Stats() {
             <StreakDetail title="Longest streak" value={2} />
           </Col>
         </Row>
+        <Link to="/login" state={{ view: "resetPassword" }}>
+          Reset password
+        </Link>
       </Container>
     </>
   );
