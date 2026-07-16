@@ -19,3 +19,43 @@ export async function getTasks(
   if (error) throw error;
   return data;
 }
+
+export async function markAsComplete(userId, taskId) {
+  const { data, error } = await supabase
+    .from("tasks")
+    .update({
+      complete: true,
+      active: false,
+      completed_at: new Date().toISOString(),
+    })
+    .eq("id", taskId)
+    .eq("user", userId)
+    .select();
+
+  if (error) {
+    console.error("Error marking task as complete:", error.message);
+    throw error;
+  }
+
+  return data;
+}
+
+export async function markAsIncomplete(userId, taskId) {
+  const { data, error } = await supabase
+    .from("tasks")
+    .update({
+      complete: false,
+      active: false,
+      completed_at: null,
+    })
+    .eq("id", taskId)
+    .eq("user", userId)
+    .select();
+
+  if (error) {
+    console.error("Error marking task as incomplete:", error.message);
+    throw error;
+  }
+
+  return data;
+}

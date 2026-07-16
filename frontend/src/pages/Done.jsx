@@ -9,8 +9,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 export default function Done() {
   const [tasks, setTasks] = useState([]);
   const { userId } = useOutletContext();
+
   dayjs.extend(relativeTime);
 
+  const handleRemoveTask = (idToRemove) => {
+    setTasks((prevList) => prevList.filter((task) => task.id !== idToRemove));
+  };
   useEffect(() => {
     async function loadTasks() {
       try {
@@ -28,14 +32,18 @@ export default function Done() {
     <>
       <Header title="DONE" />
       {tasks.map((task) => {
-        const timeAgo = dayjs(task.created_at).fromNow();
+        const timeAgo = dayjs(task.completed_at).fromNow();
         return (
           <Task
-            text={task.task}
+            key={task.id}
+            taskId={task.id}
+            task={task}
             details={timeAgo}
-            showButtons={false}
+            showButtons={true}
+            buttons={["done", "delete"]}
             showDetails={true}
             showPosition={false}
+            onStatusChange={handleRemoveTask}
           />
         );
       })}
