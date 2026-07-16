@@ -2,7 +2,12 @@ import { supabase } from "../lib/supabase";
 
 export async function getTasks(
   userId,
-  { complete = null, orderBy = "priority", ascending = true } = {},
+  {
+    complete = null,
+    active = null,
+    orderBy = "priority",
+    ascending = true,
+  } = {},
 ) {
   if (!userId) throw new Error("Required: userId");
 
@@ -12,6 +17,9 @@ export async function getTasks(
     query = query.eq("complete", complete);
   }
 
+  if (active !== null) {
+    query = query.eq("active", complete);
+  }
   query = query.order(orderBy, { ascending });
 
   const { data, error } = await query;
