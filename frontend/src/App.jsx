@@ -3,8 +3,10 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
+import { supabase } from "./lib/supabase";
+import Login from "./pages/Login";
 import {
   PersonCircle,
   PlusCircle,
@@ -13,53 +15,75 @@ import {
 } from "react-bootstrap-icons";
 
 export default function App() {
+  const [session, setSession] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const handleOpen = () => setShowAddModal(true);
   const handleClose = () => setShowAddModal(false);
   const location = useLocation();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    console.log(session);
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <main className="mx-4">
-      <Outlet />
+      {session ? (
+        <>
+          <Outlet />
 
-      <Navbar fixed="bottom">
-        <Container className="p-4">
-          <Navbar.Brand href="/">MODO</Navbar.Brand>
-          <Nav activeKey={location.pathname}>
-            <Button
-              variant="Link"
-              className="nav-link text-secondary"
-              onClick={handleOpen}
-            >
-              <PlusCircle size={32} className="text-secondary" />
-            </Button>
-            <Nav.Link
-              as={Link}
-              to="/to-do"
-              eventKey="/to-do"
-              className="text-secondary"
-            >
-              <ExclamationCircle size={32} className="text-secondary" />
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/done"
-              eventKey="/done"
-              className="text-secondary"
-            >
-              <CheckCircle size={32} className="text-secondary" />
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/user"
-              eventKey="/user"
-              className="text-secondary"
-            >
-              <PersonCircle size={32} className="text-secondary" />
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-      <AddTask showModal={showAddModal} handleClose={handleClose} />
+          <Navbar fixed="bottom">
+            <Container className="p-4">
+              <Navbar.Brand href="/">MODO</Navbar.Brand>
+              <Nav activeKey={location.pathname}>
+                <Button
+                  variant="Link"
+                  className="nav-link text-secondary"
+                  onClick={handleOpen}
+                >
+                  <PlusCircle size={32} className="text-secondary" />
+                </Button>
+                <Nav.Link
+                  as={Link}
+                  to="/to-do"
+                  eventKey="/to-do"
+                  className="text-secondary"
+                >
+                  <ExclamationCircle size={32} className="text-secondary" />
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/done"
+                  eventKey="/done"
+                  className="text-secondary"
+                >
+                  <CheckCircle size={32} className="text-secondary" />
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/user"
+                  eventKey="/user"
+                  className="text-secondary"
+                >
+                  <PersonCircle size={32} className="text-secondary" />
+                </Nav.Link>
+              </Nav>
+            </Container>
+          </Navbar>
+          <AddTask showModal={showAddModal} handleClose={handleClose} />
+        </>
+      ) : (
+        <Login />
+      )}
     </main>
   );
 }
