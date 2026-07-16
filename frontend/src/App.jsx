@@ -79,7 +79,11 @@ export default function App() {
               </Nav>
             </Container>
           </Navbar>
-          <AddTask showModal={showAddModal} handleClose={handleClose} />
+          <AddTask
+            showModal={showAddModal}
+            handleClose={handleClose}
+            userId={session?.user?.id}
+          />
         </>
       ) : (
         <Login />
