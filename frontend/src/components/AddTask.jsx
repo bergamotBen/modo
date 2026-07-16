@@ -57,7 +57,6 @@ export default function AddTask({ showModal, handleClose, userId }) {
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body className="pb-1">
-          <p>{userId}</p>
           <Form.Group controlId="taskDescription">
             <Form.Label hidden>Task description</Form.Label>
             <Form.Control
