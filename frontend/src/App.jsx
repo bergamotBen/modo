@@ -39,7 +39,7 @@ export default function App() {
     <main className="mx-4">
       {session ? (
         <>
-          <Outlet />
+          <Outlet context={{ userId: session.user.id }} />
 
           <Navbar fixed="bottom">
             <Container className="p-4">
