@@ -44,6 +44,7 @@ export default function Home() {
             buttons={buttons}
             showButtons={task.active}
             showPosition={false}
+            complete={true}
           />
         );
       })}

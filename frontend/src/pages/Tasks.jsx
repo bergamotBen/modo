@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import {
   DndContext,
   closestCenter,
@@ -16,9 +17,8 @@ import { CSS } from "@dnd-kit/utilities";
 import Task from "../components/Task";
 import Header from "../components/Header";
 import { getTasks } from "../services/tasks";
-import { useOutletContext } from "react-router-dom";
 
-function SortableTask({ id, text, priority }) {
+function SortableTask({ id, task, onRemove }) {
   const {
     attributes,
     listeners,
@@ -32,23 +32,23 @@ function SortableTask({ id, text, priority }) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-    cursor: isDragging ? "grabbing" : "grab",
-    touchAction: "none",
-    WebkitTouchCallout: "none",
-    WebkitUserSelect: "none",
-    userSelect: "none",
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div ref={setNodeRef} style={style}>
       <Task
-        text={text}
-        showButtons={false}
+        taskId={task.id}
+        text={task.task}
+        showButtons={true}
         showDetails={false}
         showPosition={true}
-        priority={priority}
-        buttons={[]}
+        priority={task.priority}
+        buttons={["done", "delete"]}
         active={false}
+        complete={task.complete}
+        dragAttributes={attributes}
+        dragListeners={listeners}
+        onStatusChange={onRemove}
       />
     </div>
   );
@@ -57,6 +57,12 @@ function SortableTask({ id, text, priority }) {
 export default function Tasks() {
   const { userId } = useOutletContext();
   const [taskList, setTaskList] = useState([]);
+
+  const handleRemoveTask = (idToRemove) => {
+    setTaskList((prevList) =>
+      prevList.filter((task) => task.id !== idToRemove),
+    );
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -110,8 +116,8 @@ export default function Tasks() {
               <SortableTask
                 key={task.id}
                 id={task.id}
-                text={task.task}
-                priority={task.priority}
+                task={task}
+                onRemove={handleRemoveTask}
               />
             ))}
           </SortableContext>
