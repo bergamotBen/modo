@@ -13,54 +13,44 @@ import {
 import { markAsComplete, markAsIncomplete } from "../services/tasks";
 
 export default function Task({
-  taskId,
-  text,
-  details,
   buttons,
   showPosition,
   showButtons,
   showDetails,
-  active,
-  priority,
   complete,
   dragAttributes,
   dragListeners,
   onStatusChange,
+  task,
+  details,
 }) {
-  const [isDone, setIsDone] = useState(complete);
+  const [isDone, setIsDone] = useState(task.complete);
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useOutletContext();
 
   useEffect(() => {
-    setIsDone(complete);
-  }, [complete]);
+    setIsDone(task.complete);
+  }, [task.complete]);
 
   async function handleDone() {
     if (isLoading) return;
 
     setIsLoading(true);
     const nextState = !isDone;
-    // 👇 ADD THESE LOGS FOR DEBUGGING
-    console.log("--- handleDone Triggered ---");
-    console.log("userId extracted from Context:", userId);
-    console.log("taskId passed to Task component:", taskId);
-    console.log("Attempting to change status to complete =", nextState);
+
     try {
       if (nextState) {
-        const res = await markAsComplete(userId, taskId);
-        console.log("Supabase response (Complete):", res);
+        await markAsComplete(userId, task.id);
       } else {
-        const res = await markAsIncomplete(userId, taskId);
-        console.log("Supabase response (Incomplete):", res);
+        await markAsIncomplete(userId, task.id);
       }
       setIsDone(nextState);
 
       if (onStatusChange) {
-        onStatusChange(taskId);
+        onStatusChange(task.id);
       }
     } catch (error) {
       console.error("Failed to update task status:", error);
-      console.error("CRITICAL: Failed to update task status:", error);
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +64,7 @@ export default function Task({
     cardClass = "pt-3 mx-2 mx-lg-5 mb-3";
   }
 
-  if (active) {
+  if (task.active) {
     border = "success";
     textClassName += " text-success";
   }
@@ -85,10 +75,6 @@ export default function Task({
       className={cardClass}
       style={{ opacity: isLoading ? 0.7 : 1 }}
     >
-      {/*
-        This upper div catches the drag events.
-        It allows you to drag using the task body without conflicting with the buttons below.
-      */}
       <div
         {...dragAttributes}
         {...dragListeners}
@@ -99,9 +85,9 @@ export default function Task({
         }}
       >
         {showPosition ? (
-          <Card.Title className="text-start px-3">{priority}</Card.Title>
+          <Card.Title className="text-start px-3">{task.priority}</Card.Title>
         ) : null}
-        <Card.Text className={textClassName}>{text}</Card.Text>
+        <Card.Text className={textClassName}>{task.task}</Card.Text>
 
         {showDetails ? (
           <div className="text-end px-3 text-secondary">{details}</div>
@@ -113,7 +99,7 @@ export default function Task({
           className="text-end px-2 py-2"
           style={{ position: "relative", zIndex: 10 }}
         >
-          {active ? (
+          {task.active ? (
             buttons.includes("play") ? (
               <Link className="mx-1">
                 <PlayCircle size={26} className="text-secondary" />

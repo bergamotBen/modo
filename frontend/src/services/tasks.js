@@ -25,6 +25,7 @@ export async function markAsComplete(userId, taskId) {
     .from("tasks")
     .update({
       complete: true,
+      active: false,
       completed_at: new Date().toISOString(),
     })
     .eq("id", taskId)
@@ -44,6 +45,7 @@ export async function markAsIncomplete(userId, taskId) {
     .from("tasks")
     .update({
       complete: false,
+      active: false,
       completed_at: null,
     })
     .eq("id", taskId)

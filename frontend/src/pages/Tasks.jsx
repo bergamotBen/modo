@@ -38,14 +38,11 @@ function SortableTask({ id, task, onRemove }) {
     <div ref={setNodeRef} style={style}>
       <Task
         taskId={task.id}
-        text={task.task}
+        task={task}
         showButtons={true}
         showDetails={false}
         showPosition={true}
-        priority={task.priority}
         buttons={["done", "delete"]}
-        active={false}
-        complete={task.complete}
         dragAttributes={attributes}
         dragListeners={listeners}
         onStatusChange={onRemove}

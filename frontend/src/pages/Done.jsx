@@ -37,13 +37,12 @@ export default function Done() {
           <Task
             key={task.id}
             taskId={task.id}
-            text={task.task}
+            task={task}
             details={timeAgo}
             showButtons={true}
             buttons={["done", "delete"]}
             showDetails={true}
             showPosition={false}
-            complete={task.complete}
             onStatusChange={handleRemoveTask}
           />
         );

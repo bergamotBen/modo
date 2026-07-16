@@ -39,12 +39,10 @@ export default function Home() {
         return (
           <Task
             key={task.id}
-            active={task.active}
-            text={task.task}
+            task={task}
             buttons={buttons}
             showButtons={task.active}
             showPosition={false}
-            complete={true}
           />
         );
       })}
