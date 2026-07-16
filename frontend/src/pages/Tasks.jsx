@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   DndContext,
   closestCenter,
@@ -15,6 +15,8 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import Task from "../components/Task";
 import Header from "../components/Header";
+import { getTasks } from "../services/tasks";
+import { useOutletContext } from "react-router-dom";
 
 function SortableTask({ id, text, priority }) {
   const {
@@ -53,11 +55,8 @@ function SortableTask({ id, text, priority }) {
 }
 
 export default function Tasks() {
-  const [taskList, setTaskList] = useState([
-    { id: "task-1", text: "An incomplete task" },
-    { id: "task-2", text: "Another incomplete task" },
-    { id: "task-3", text: "A third incomplete task" },
-  ]);
+  const { userId } = useOutletContext();
+  const [taskList, setTaskList] = useState([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -78,6 +77,22 @@ export default function Tasks() {
     }
   };
 
+  useEffect(() => {
+    async function loadTasks() {
+      try {
+        const allTasks = await getTasks(userId, {
+          complete: false,
+          orderBy: "priority",
+          ascending: true,
+        });
+        setTaskList(allTasks);
+      } catch (error) {
+        console.error(`Failed to load tasks: ${error}`);
+      }
+    }
+    if (userId) loadTasks();
+  }, [userId]);
+
   return (
     <>
       <Header title="TODO" />
@@ -91,12 +106,12 @@ export default function Tasks() {
             items={taskList.map((t) => t.id)}
             strategy={verticalListSortingStrategy}
           >
-            {taskList.map((task, index) => (
+            {taskList.map((task) => (
               <SortableTask
                 key={task.id}
                 id={task.id}
-                text={task.text}
-                priority={index + 1}
+                text={task.task}
+                priority={task.priority}
               />
             ))}
           </SortableContext>

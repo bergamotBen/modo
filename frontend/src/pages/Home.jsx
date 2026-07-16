@@ -13,7 +13,11 @@ export default function Home() {
   useEffect(() => {
     async function loadTasks() {
       try {
-        const allTasks = await getTasks(userId, { complete: false });
+        const allTasks = await getTasks(userId, {
+          complete: false,
+          orderBy: "priority",
+          ascending: true,
+        });
         setTasks(allTasks);
       } catch (error) {
         console.error(`Failed to load tasks: ${error}`);
@@ -26,24 +30,23 @@ export default function Home() {
       <Header />
       {breaktime ? <Breaktime /> : null}
 
-      {tasks.map((task) => (
-        <Task key={task.id} active={task.active} text={task.task} />
-      ))}
-      <Task
-        text="An in-progress task with no position and no buttons"
-        showPosition={false}
-        showDetails={false}
-        showButtons={true}
-        buttons={["play", "stop", "delete"]}
-        active={true}
-      />
-      <Task
-        text="A todo task with no position and no buttons"
-        showPosition={false}
-        showDetails={false}
-        showButtons={false}
-        active={false}
-      />
+      {tasks.map((task) => {
+        const buttons = ["delete"];
+        if (task.active) {
+          buttons.push("play");
+          buttons.push("stop");
+        }
+        return (
+          <Task
+            key={task.id}
+            active={task.active}
+            text={task.task}
+            buttons={buttons}
+            showButtons={task.active}
+            showPosition={false}
+          />
+        );
+      })}
     </div>
   );
 }
