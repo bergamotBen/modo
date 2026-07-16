@@ -1,10 +1,46 @@
 import Modal from "react-bootstrap/esm/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
-export default function AddTask({ showModal, handleClose }) {
-  const handleSubmit = (e) => {
+import { supabase } from "../lib/supabase";
+import { useState } from "react";
+
+export default function AddTask({ showModal, handleClose, userId }) {
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleAddTask = async () => {
+    if (!userId) {
+      alert("You need to log in to add a task");
+      return;
+    }
+
+    if (!content.trim()) {
+      alert("You need to enter the task description");
+    }
+
+    setLoading(true);
+
+    const { error } = await supabase.from("tasks").insert([
+      {
+        task: content,
+        user: userId,
+        complete: false,
+      },
+    ]);
+
+    setLoading(false);
+
+    if (error) {
+      alert(`Something's gone wrong: ${error.message}`);
+    } else {
+      setContent("");
+      handleClose();
+    }
+  };
+
+  const handleSubmit = (e, content, userId) => {
     e.preventDefault();
-    alert("Task added");
+    handleAddTask(content, userId);
   };
 
   const handleKeyDown = (e) => {
@@ -13,6 +49,7 @@ export default function AddTask({ showModal, handleClose }) {
       handleSubmit(e);
     }
   };
+
   return (
     <Modal show={showModal} onHide={handleClose} className="mt-5">
       <Modal.Header className="border-0 pb-1" closeButton>
@@ -20,11 +57,15 @@ export default function AddTask({ showModal, handleClose }) {
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body className="pb-1">
+          <p>{userId}</p>
           <Form.Group controlId="taskDescription">
             <Form.Label hidden>Task description</Form.Label>
             <Form.Control
               as="textarea"
               rows={5}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="What do you need to do?"
               onKeyDown={handleKeyDown}
               autoFocus
             ></Form.Control>
@@ -32,7 +73,9 @@ export default function AddTask({ showModal, handleClose }) {
         </Modal.Body>
         <Modal.Footer className="border-0 pb-3">
           <Button type="submit">Add</Button>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose} disabled={loading}>
+            Cancel
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>
