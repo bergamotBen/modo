@@ -18,7 +18,15 @@ export default function Home() {
           orderBy: "priority",
           ascending: true,
         });
-        setTasks(allTasks);
+
+        const activeTask = allTasks.find((task) => task.active === true);
+        const inactiveTasks = allTasks.filter((task) => task.active !== true);
+
+        if (activeTask) {
+          setTasks([activeTask, ...inactiveTasks]);
+        } else {
+          setTasks(allTasks);
+        }
       } catch (error) {
         console.error(`Failed to load tasks: ${error}`);
       }

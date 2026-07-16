@@ -17,7 +17,6 @@ export default function Task({
   showPosition,
   showButtons,
   showDetails,
-  complete,
   dragAttributes,
   dragListeners,
   onStatusChange,
