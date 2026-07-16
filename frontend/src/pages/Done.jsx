@@ -9,6 +9,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 export default function Done() {
   const [tasks, setTasks] = useState([]);
   const { userId } = useOutletContext();
+  dayjs.extend(relativeTime);
 
   useEffect(() => {
     async function loadTasks() {
@@ -27,7 +28,6 @@ export default function Done() {
     <>
       <Header title="DONE" />
       {tasks.map((task) => {
-        dayjs.extend(relativeTime);
         const timeAgo = dayjs(task.created_at).fromNow();
         return (
           <Task
