@@ -28,6 +28,9 @@ export default function User() {
     <>
       <Header title="USER" />
       <Container className="p-0">
+        <Row className="mb-2">
+          <Col>☑️ MARKED AS DONE</Col>
+        </Row>
         <Row>
           <Col>
             <ProgressGauge today={true} value={4} />
