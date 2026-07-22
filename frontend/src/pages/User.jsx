@@ -41,12 +41,12 @@ export default function User() {
         </Row>
         <Row className="mt-3">
           <Col>
-            <StreakDetail title="Current streak" value={2} />
+            <StreakDetail type="current_streak" />
           </Col>
         </Row>
         <Row className="mt-3">
           <Col>
-            <StreakDetail title="Longest streak" value={2} />
+            <StreakDetail type="longest_streak" />
           </Col>
         </Row>
         <Row className="mt-3">
