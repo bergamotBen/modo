@@ -9,6 +9,7 @@ import Done from "./pages/Done.jsx";
 import Tasks from "./pages/Tasks.jsx";
 import User from "./pages/User.jsx";
 import Login from "./pages/Login.jsx";
+import { TaskProvider } from "./context/TaskContext.jsx";
 // react-bootstrap docs: https://react-bootstrap.netlify.app/
 
 /**
@@ -64,6 +65,8 @@ const router = createBrowserRouter([
 // Render your main React application tree
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <TaskProvider>
+      <RouterProvider router={router} />
+    </TaskProvider>
   </React.StrictMode>,
 );

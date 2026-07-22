@@ -15,6 +15,7 @@ export default function Done() {
   const handleRemoveTask = (idToRemove) => {
     setTasks((prevList) => prevList.filter((task) => task.id !== idToRemove));
   };
+
   useEffect(() => {
     async function loadTasks() {
       try {
@@ -28,6 +29,7 @@ export default function Done() {
     }
     if (userId) loadTasks();
   }, [userId]);
+
   return (
     <>
       <Header title="DONE" />

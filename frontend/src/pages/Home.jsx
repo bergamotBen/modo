@@ -4,11 +4,13 @@ import Breaktime from "../components/Breaktime";
 import { useState, useEffect } from "react";
 import { getTasks } from "../services/tasks";
 import { useOutletContext } from "react-router-dom";
+import { useTasks } from "../context/TaskContext";
 
 export default function Home() {
   const [breaktime, setBreaktime] = useState(false);
   const [tasks, setTasks] = useState([]);
   const { userId, userName } = useOutletContext();
+  const { refreshKey } = useTasks();
 
   useEffect(() => {
     async function loadTasks() {
@@ -32,7 +34,7 @@ export default function Home() {
       }
     }
     if (userId) loadTasks();
-  }, [userId]);
+  }, [userId, refreshKey]);
   return (
     <div>
       <Header />
