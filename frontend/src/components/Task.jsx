@@ -7,11 +7,9 @@ import {
   PauseCircle,
   StopCircle,
   Trash3,
-  CheckCircle,
-  ExclamationCircle,
 } from "react-bootstrap-icons";
 import { markAsComplete, markAsIncomplete } from "../services/tasks";
-
+import { Button } from "react-bootstrap";
 export default function Task({
   buttons,
   showPosition,
@@ -89,13 +87,15 @@ export default function Task({
         <Card.Text className={textClassName}>{task.task}</Card.Text>
 
         {showDetails ? (
-          <div className="text-end px-3 text-secondary">{details}</div>
+          <div className="text-end px-3 pt-2 mb-2 text-secondary">
+            {details}
+          </div>
         ) : null}
       </div>
 
       {showButtons ? (
         <Card.Footer
-          className="text-end px-2 py-2"
+          className="d-flex align-items-center justify-content-end mt-2 p-2"
           style={{ position: "relative", zIndex: 10 }}
         >
           {task.active ? (
@@ -116,23 +116,17 @@ export default function Task({
             </Link>
           )}
 
-          {buttons.includes("done") &&
-            (isDone ? (
-              <CheckCircle
-                size={26}
-                className="text-secondary"
-                style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                onClick={handleDone}
-              />
-            ) : (
-              <ExclamationCircle
-                size={26}
-                className="text-secondary"
-                style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                onClick={handleDone}
-              />
-            ))}
-
+          {buttons.includes("done") && (
+            <Button
+              id={`task-toggle-${task.id}`}
+              variant={"outline-secondary"}
+              disabled={isLoading}
+              onClick={handleDone}
+              size="sm"
+            >
+              {isDone ? "mark as todo" : "mark as done"}
+            </Button>
+          )}
           {buttons.includes("delete") && (
             <Link className="mx-1">
               <Trash3 size={26} className="text-secondary" />
