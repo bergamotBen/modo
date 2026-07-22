@@ -31,9 +31,10 @@ export default function StreakDetail({ type }) {
   }, [userId]);
   return (
     <Card>
-      <Card.Text className="text-start p-3">
-        {title} streak: {value} {value === 1 ? "day" : "days"}
-      </Card.Text>
+      <Card.Body className="h1 text-center m-0">
+        {value} {value === 1 ? "day" : "days"}
+      </Card.Body>
+      <Card.Footer className="text-center">{title} streak</Card.Footer>
     </Card>
   );
 }

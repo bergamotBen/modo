@@ -40,11 +40,12 @@ export default function User() {
           </Col>
         </Row>
         <Row className="mt-3">
+          <Col>Streaks</Col>
+        </Row>
+        <Row className="mt-3">
           <Col>
             <StreakDetail type="current_streak" />
           </Col>
-        </Row>
-        <Row className="mt-3">
           <Col>
             <StreakDetail type="longest_streak" />
           </Col>
