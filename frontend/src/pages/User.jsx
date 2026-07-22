@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import { InputGroup } from "react-bootstrap";
 import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -9,7 +10,7 @@ import { supabase } from "../lib/supabase";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link, useOutletContext } from "react-router-dom";
-
+import { ArrowCounterclockwise, BoxArrowRight } from "react-bootstrap-icons";
 export default function User() {
   const [displayName, setDisplayName] = useState("");
   const { userId, userName } = useOutletContext();
@@ -31,10 +32,10 @@ export default function User() {
       <Header title="USER" />
 
       <Container className="p-0">
-        <Row className="mb-2">
-          <Col>☑️ MARKED AS DONE</Col>
+        <Row className="mb-3">
+          <Col>Tasks complete</Col>
         </Row>
-        <Row>
+        <Row className="mb-3">
           <Col>
             <ProgressGauge today={true} value={4} />
           </Col>
@@ -42,7 +43,7 @@ export default function User() {
             <ProgressGauge today={false} value={13} />
           </Col>
         </Row>
-        <Row className="mt-3">
+        <Row className="mb-3">
           <Col>Streaks</Col>
         </Row>
         <Row className="mt-3">
@@ -53,46 +54,46 @@ export default function User() {
             <StreakDetail type="longest_streak" />
           </Col>
         </Row>
-        <Row className="mt-3">
+        <hr className="my-3" />
+        <Row>
           <Col>
-            <Card>
-              <Card.Text className="text-start p-3">
-                <Form onSubmit={addDisplayName}>
-                  <Form.Group>
-                    <Form.Label>Change display name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder={userName}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                    ></Form.Control>
-                    <Button onClick={addDisplayName} className="my-2">
-                      Update name
-                    </Button>
-                  </Form.Group>
-                </Form>
-              </Card.Text>
-            </Card>
+            <Form onSubmit={addDisplayName}>
+              <Form.Group>
+                <Form.Label className="mb-3">Change display name</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type="text"
+                    placeholder={userName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                  ></Form.Control>
+                  <Button onClick={addDisplayName}>Change name</Button>
+                </InputGroup>
+              </Form.Group>
+            </Form>
           </Col>
         </Row>
         <Row className="mt-3">
-          <Col>
-            <Card>
-              <Button
-                variant="Link"
-                className="text-start text-secondary"
-                onClick={handleLogOut}
-              >
-                Log out
-              </Button>
-              <Link
-                to="/login"
-                state={{ view: "resetPassword" }}
-                className="text-start text-secondary p-1 mx-2 text-decoration-none"
-              >
-                Reset password
-              </Link>
-            </Card>
-          </Col>
+          <Row>
+            <Link
+              to="/login"
+              state={{ view: "resetPassword" }}
+              className="text-start text-secondary p-1 mx-2 text-decoration-none"
+            >
+              <ArrowCounterclockwise
+                className="text-secondary me-2"
+                size={20}
+              />
+              Reset password
+            </Link>
+          </Row>
+          <Button
+            variant="Link"
+            className="text-start text-secondary"
+            onClick={handleLogOut}
+          >
+            <BoxArrowRight className="text-secondary me-2" size={20} />
+            Log out
+          </Button>
         </Row>
       </Container>
     </>
