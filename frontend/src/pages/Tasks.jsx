@@ -127,6 +127,11 @@ export default function Tasks() {
   return (
     <>
       <Header title="TODO" />
+      {taskList.length > 0 ? (
+        <p>You've got {taskList.length} unfinished symphonies.</p>
+      ) : (
+        <p>An empty todo list, such an achiever!</p>
+      )}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

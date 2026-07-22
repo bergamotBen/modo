@@ -21,7 +21,6 @@ export default function ProgressGauge({ today }) {
       if (error) {
         console.error(`Error fetching ${range}: ${error}`);
       } else if (data) {
-        console.log(data);
         setStats(data[range]);
       }
       setLoading(false);
