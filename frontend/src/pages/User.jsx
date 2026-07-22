@@ -11,8 +11,12 @@ import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link, useOutletContext } from "react-router-dom";
 import { ArrowCounterclockwise, BoxArrowRight } from "react-bootstrap-icons";
+import { PushControls } from "../components/PushSetup";
+import { usePushSubscription } from "../hooks/usePushSubscription";
+
 export default function User() {
   const [displayName, setDisplayName] = useState("");
+  const { isSubscribed, loading, subscribe } = usePushSubscription();
   const { userId, userName } = useOutletContext();
 
   const handleLogOut = async () => {
@@ -73,6 +77,13 @@ export default function User() {
           </Col>
         </Row>
         <Row className="mt-3">
+          <PushControls
+            isSubscribed={isSubscribed}
+            loading={loading}
+            subscribe={subscribe}
+          />
+        </Row>
+        <Row>
           <Row>
             <Link
               to="/login"

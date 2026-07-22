@@ -15,6 +15,8 @@ import {
 } from "../services/tasks";
 import { Button } from "react-bootstrap";
 import { useToast } from "../context/ToastContext";
+import { useTimer } from "../context/TimerContext";
+import { useTasks } from "../context/TaskContext";
 
 export default function Task({
   buttons,
@@ -31,13 +33,36 @@ export default function Task({
   const [isDone, setIsDone] = useState(task.complete);
   const [isArchived, setIsArchived] = useState(task.archived);
   const [isLoading, setIsLoading] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(0);
   const { userId } = useOutletContext();
   const { showToast } = useToast();
+  const { timerRunning, pauseTimer, startTimer, timer, stopTimer } = useTimer();
+  const { refreshTasks } = useTasks();
+
+  const showDoneButton =
+    buttons.includes("done") || (task.active && task.sessions >= 1);
 
   useEffect(() => {
     setIsDone(task.complete);
   }, [task.complete]);
 
+  function toggleTimer() {
+    if (timerRunning) {
+      setTimeRemaining(timer);
+      pauseTimer();
+    } else {
+      if (timeRemaining === 0) {
+        startTimer(task.id, userId, 25);
+      } else {
+        startTimer(task.id, userId, timeRemaining);
+        setTimeRemaining(0);
+      }
+    }
+  }
+
+  function handleStopTimer() {
+    stopTimer();
+  }
   async function handleDone() {
     if (isLoading) return;
 
@@ -46,7 +71,8 @@ export default function Task({
 
     try {
       if (nextState) {
-        await markAsComplete(userId, task.id);
+        await markAsComplete(userId, task.id, task.active);
+        refreshTasks();
         showToast("Moved to DONE");
       } else {
         await markAsIncomplete(userId, task.id);
@@ -123,31 +149,40 @@ export default function Task({
           </div>
         ) : null}
       </div>
-
       {showButtons ? (
         <Card.Footer
           className="d-flex align-items-center justify-content-end mt-2 p-2"
           style={{ position: "relative", zIndex: 10 }}
         >
-          {task.active ? (
-            buttons.includes("play") ? (
-              <Link className="mx-1">
-                <PlayCircle size={26} className="text-secondary" />
-              </Link>
-            ) : (
-              <Link className="mx-1">
-                <PauseCircle size={26} className="text-secondary" />
-              </Link>
-            )
-          ) : null}
-
-          {buttons.includes("stop") && (
+          {task.active && buttons.includes("play") && (
             <Link className="mx-1">
-              <StopCircle size={26} className="text-secondary" />
+              {timerRunning ? (
+                <PauseCircle
+                  size={26}
+                  className="text-secondary"
+                  onClick={toggleTimer}
+                />
+              ) : (
+                <PlayCircle
+                  size={26}
+                  className="text-secondary"
+                  onClick={toggleTimer}
+                />
+              )}
             </Link>
           )}
 
-          {buttons.includes("done") && (
+          {buttons.includes("stop") && timerRunning && (
+            <Link className="mx-1">
+              <StopCircle
+                size={26}
+                className="text-secondary"
+                onClick={handleStopTimer}
+              />
+            </Link>
+          )}
+
+          {showDoneButton && (
             <Button
               id={`task-toggle-${task.id}`}
               variant={"outline-secondary"}
