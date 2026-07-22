@@ -32,7 +32,7 @@ export default function User() {
 
       <Container className="p-0">
         <Row className="mb-2">
-          <Col>☑️ MARKED AS DONE</Col>
+          <Col>Tasks complete</Col>
         </Row>
         <Row>
           <Col>
