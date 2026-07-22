@@ -18,6 +18,7 @@ import Task from "../components/Task";
 import Header from "../components/Header";
 import { getTasks } from "../services/tasks";
 import { supabase } from "../lib/supabase";
+import { useTasks } from "../context/TaskContext";
 
 function SortableTask({ id, task, onRemove }) {
   const {
@@ -55,6 +56,7 @@ function SortableTask({ id, task, onRemove }) {
 export default function Tasks() {
   const { userId } = useOutletContext();
   const [taskList, setTaskList] = useState([]);
+  const { refreshKey } = useTasks();
 
   const handleRemoveTask = (idToRemove) => {
     setTaskList((prevList) =>
@@ -122,7 +124,7 @@ export default function Tasks() {
 
   useEffect(() => {
     if (userId) loadTasks();
-  }, [userId]);
+  }, [userId, refreshKey]);
 
   return (
     <>

@@ -3,19 +3,21 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 import { supabase } from "../lib/supabase";
 import { useState } from "react";
+import { useTasks } from "../context/TaskContext";
 
 export default function AddTask({ showModal, handleClose, userId }) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const { refreshTasks } = useTasks();
 
+  const handleCancel = () => {
+    setContent("");
+    handleClose();
+  };
   const handleAddTask = async () => {
     if (!userId) {
       alert("You need to log in to add a task");
       return;
-    }
-
-    if (!content.trim()) {
-      alert("You need to enter the task description");
     }
 
     setLoading(true);
@@ -34,6 +36,7 @@ export default function AddTask({ showModal, handleClose, userId }) {
       alert(`Something's gone wrong: ${error.message}`);
     } else {
       setContent("");
+      refreshTasks();
       handleClose();
     }
   };
@@ -71,8 +74,10 @@ export default function AddTask({ showModal, handleClose, userId }) {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer className="border-0 pb-3">
-          <Button type="submit">Add</Button>
-          <Button onClick={handleClose} disabled={loading}>
+          <Button type="submit" disabled={!content}>
+            Add
+          </Button>
+          <Button onClick={handleCancel} disabled={loading}>
             Cancel
           </Button>
         </Modal.Footer>
