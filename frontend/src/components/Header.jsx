@@ -2,7 +2,7 @@ import Container from "react-bootstrap/esm/Container";
 import { useState, useEffect } from "react";
 
 function Timer() {
-  const [time, setTime] = useState(2);
+  const [time, setTime] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
