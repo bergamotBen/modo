@@ -41,7 +41,7 @@ export default function Home() {
       {breaktime ? <Breaktime /> : null}
       <div className="h3, p-2">What's on the cards today {userName}?</div>
       {tasks.map((task) => {
-        const buttons = ["delete"];
+        const buttons = [];
         if (task.active) {
           buttons.push("play");
           buttons.push("stop");
