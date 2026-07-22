@@ -66,7 +66,7 @@ export default function User() {
                     placeholder={userName}
                     onChange={(e) => setDisplayName(e.target.value)}
                   ></Form.Control>
-                  <Button onClick={addDisplayName}>Update name</Button>
+                  <Button onClick={addDisplayName}>Change name</Button>
                 </InputGroup>
               </Form.Group>
             </Form>
