@@ -31,7 +31,6 @@ export default function App() {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
-    console.log(session);
     return () => subscription.unsubscribe();
   }, []);
 
@@ -39,7 +38,12 @@ export default function App() {
     <main className="mx-4">
       {session ? (
         <>
-          <Outlet context={{ userId: session.user.id }} />
+          <Outlet
+            context={{
+              userId: session.user.id,
+              userName: session.user.user_metadata.display_name,
+            }}
+          />
 
           <Navbar fixed="bottom">
             <Container className="p-4">
