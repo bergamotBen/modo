@@ -8,10 +8,11 @@ import { Button, Card } from "react-bootstrap";
 import { supabase } from "../lib/supabase";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
 export default function User() {
   const [displayName, setDisplayName] = useState("");
+  const { userId, userName } = useOutletContext();
 
   const handleLogOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -24,9 +25,11 @@ export default function User() {
       data: { display_name: displayName },
     });
   };
+
   return (
     <>
       <Header title="USER" />
+
       <Container className="p-0">
         <Row className="mb-2">
           <Col>☑️ MARKED AS DONE</Col>
@@ -59,7 +62,7 @@ export default function User() {
                     <Form.Label>Change display name</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder={displayName}
+                      placeholder={userName}
                       onChange={(e) => setDisplayName(e.target.value)}
                     ></Form.Control>
                     <Button onClick={addDisplayName} className="my-2">
