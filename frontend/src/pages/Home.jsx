@@ -43,9 +43,10 @@ export default function Home() {
       {tasks.map((task) => {
         const buttons = [];
         if (task.active) {
-          buttons.push("play");
+          buttons.push("pause");
           buttons.push("stop");
         }
+
         return (
           <Task
             key={task.id}
