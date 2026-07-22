@@ -128,9 +128,9 @@ export default function Tasks() {
     <>
       <Header title="TODO" />
       {taskList.length > 0 ? (
-        <p>You've got {taskList.length} unfinished symphonies.</p>
+        <div>You've got {taskList.length} unfinished symphonies.</div>
       ) : (
-        <p>An empty todo list, such an achiever!</p>
+        <div>An empty todo list, such an achiever!</div>
       )}
       <DndContext
         sensors={sensors}

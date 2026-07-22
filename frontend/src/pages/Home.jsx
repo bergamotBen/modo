@@ -8,7 +8,7 @@ import { useOutletContext } from "react-router-dom";
 export default function Home() {
   const [breaktime, setBreaktime] = useState(false);
   const [tasks, setTasks] = useState([]);
-  const { userId } = useOutletContext();
+  const { userId, userName } = useOutletContext();
 
   useEffect(() => {
     async function loadTasks() {
@@ -37,7 +37,7 @@ export default function Home() {
     <div>
       <Header />
       {breaktime ? <Breaktime /> : null}
-
+      <div className="h3, p-2">What's on the cards today {userName}?</div>
       {tasks.map((task) => {
         const buttons = ["delete"];
         if (task.active) {
