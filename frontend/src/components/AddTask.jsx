@@ -10,6 +10,10 @@ export default function AddTask({ showModal, handleClose, userId }) {
   const [loading, setLoading] = useState(false);
   const { refreshTasks } = useTasks();
 
+  const handleCancel = () => {
+    setContent("");
+    handleClose();
+  };
   const handleAddTask = async () => {
     if (!userId) {
       alert("You need to log in to add a task");
@@ -73,7 +77,7 @@ export default function AddTask({ showModal, handleClose, userId }) {
           <Button type="submit" disabled={!content}>
             Add
           </Button>
-          <Button onClick={handleClose} disabled={loading}>
+          <Button onClick={handleCancel} disabled={loading}>
             Cancel
           </Button>
         </Modal.Footer>
