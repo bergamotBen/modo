@@ -32,7 +32,7 @@ export default function Tasks() {
   );
 
   const saveAndSyncPriorities = async (newList) => {
-    //setTaskList(newList);
+    setTaskList(newList);
 
     try {
       const updatePromises = newList.map((task, index) =>
