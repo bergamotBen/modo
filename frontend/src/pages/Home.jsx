@@ -19,6 +19,7 @@ export default function Home() {
           complete: false,
           orderBy: "priority",
           ascending: true,
+          archived: false,
         });
 
         const activeTask = allTasks.find((task) => task.active === true);
