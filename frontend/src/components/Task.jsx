@@ -47,7 +47,7 @@ export default function Task({
       pauseTimer();
     } else {
       if (timeRemaining === 0) {
-        startTimer(task.id, 25);
+        startTimer(task.id, userId, 25);
       } else {
         startTimer(task.id, timeRemaining);
         setTimeRemaining(0);

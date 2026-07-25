@@ -16,8 +16,12 @@ export function urlBase64ToUint8Array(base64String) {
 
 export const subscribeToPush = async () => {
   const permission = await Notification.requestPermission();
-
   if (permission !== "granted") throw new Error("Permission denied");
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("User must be logged in to enable notifications");
 
   const registration = await navigator.serviceWorker.ready;
   const publicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
@@ -28,12 +32,20 @@ export const subscribeToPush = async () => {
     applicationServerKey: convertedPublicKey,
   });
 
-  const { error } = await supabase
-    .from("push_subscriptions")
-    .insert([{ subscription: subscription.toJSON() }]);
+  const subJSON = subscription.toJSON();
 
-  if (error) {
-    throw error;
-  }
+  // Upsert matching on the text 'endpoint' column!
+  const { error } = await supabase.from("push_subscriptions").upsert(
+    [
+      {
+        user_id: user.id,
+        endpoint: subscription.endpoint, // Pure text string for clean matching
+        subscription: subJSON,
+      },
+    ],
+    { onConflict: "endpoint" },
+  );
+
+  if (error) throw error;
   return subscription;
 };
