@@ -15,6 +15,7 @@ import {
 } from "../services/tasks";
 import { Button } from "react-bootstrap";
 import { useToast } from "../context/ToastContext";
+import { useTimer } from "../context/TimerContext";
 
 export default function Task({
   buttons,
@@ -31,13 +32,32 @@ export default function Task({
   const [isDone, setIsDone] = useState(task.complete);
   const [isArchived, setIsArchived] = useState(task.archived);
   const [isLoading, setIsLoading] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(0);
   const { userId } = useOutletContext();
   const { showToast } = useToast();
+  const { timerRunning, pauseTimer, startTimer, timer, stopTimer } = useTimer();
 
   useEffect(() => {
     setIsDone(task.complete);
   }, [task.complete]);
 
+  function toggleTimer() {
+    if (timerRunning) {
+      setTimeRemaining(timer);
+      pauseTimer();
+    } else {
+      if (timeRemaining === 0) {
+        startTimer(task.id, 25);
+      } else {
+        startTimer(task.id, timeRemaining);
+        setTimeRemaining(0);
+      }
+    }
+  }
+
+  function handleStopTimer() {
+    stopTimer();
+  }
   async function handleDone() {
     if (isLoading) return;
 
@@ -123,27 +143,36 @@ export default function Task({
           </div>
         ) : null}
       </div>
-
       {showButtons ? (
         <Card.Footer
           className="d-flex align-items-center justify-content-end mt-2 p-2"
           style={{ position: "relative", zIndex: 10 }}
         >
-          {task.active ? (
-            buttons.includes("play") ? (
-              <Link className="mx-1">
-                <PlayCircle size={26} className="text-secondary" />
-              </Link>
-            ) : (
-              <Link className="mx-1">
-                <PauseCircle size={26} className="text-secondary" />
-              </Link>
-            )
-          ) : null}
+          {task.active && buttons.includes("play") && (
+            <Link className="mx-1">
+              {timerRunning ? (
+                <PauseCircle
+                  size={26}
+                  className="text-secondary"
+                  onClick={toggleTimer}
+                />
+              ) : (
+                <PlayCircle
+                  size={26}
+                  className="text-secondary"
+                  onClick={toggleTimer}
+                />
+              )}
+            </Link>
+          )}
 
           {buttons.includes("stop") && (
             <Link className="mx-1">
-              <StopCircle size={26} className="text-secondary" />
+              <StopCircle
+                size={26}
+                className="text-secondary"
+                onClick={handleStopTimer}
+              />
             </Link>
           )}
 

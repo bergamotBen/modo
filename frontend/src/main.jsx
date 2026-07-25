@@ -11,6 +11,7 @@ import User from "./pages/User.jsx";
 import Login from "./pages/Login.jsx";
 import { TaskProvider } from "./context/TaskContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
+import { TimerProvider } from "./context/TimerContext.jsx";
 // react-bootstrap docs: https://react-bootstrap.netlify.app/
 
 /**
@@ -66,10 +67,12 @@ const router = createBrowserRouter([
 // Render your main React application tree
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <TaskProvider>
-      <ToastProvider>
-        <RouterProvider router={router} />
-      </ToastProvider>
-    </TaskProvider>
+    <TimerProvider>
+      <TaskProvider>
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </TaskProvider>
+    </TimerProvider>
   </React.StrictMode>,
 );

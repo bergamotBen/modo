@@ -49,7 +49,14 @@ export function TimerProvider({ children }) {
 
   return (
     <TimerContext.Provider
-      value={{ startTimer, pauseTimer, stopTimer, timerRunning, timer }}
+      value={{
+        startTimer,
+        pauseTimer,
+        stopTimer,
+        timerRunning,
+        timer,
+        setTimerRunning,
+      }}
     >
       {children}
     </TimerContext.Provider>
