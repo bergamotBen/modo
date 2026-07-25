@@ -20,6 +20,7 @@ export default function Task({
   onStatusChange,
   task,
   details,
+  isDraggable = false,
 }) {
   const [isDone, setIsDone] = useState(task.complete);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,12 +74,12 @@ export default function Task({
       style={{ opacity: isLoading ? 0.7 : 1 }}
     >
       <div
-        {...dragAttributes}
-        {...dragListeners}
+        {...(isDraggable ? dragAttributes : {})}
+        {...(isDraggable ? dragListeners : {})}
         style={{
-          cursor: "grab",
-          userSelect: "none",
-          touchAction: "none",
+          cursor: isDraggable ? "grab" : "default",
+          userSelect: isDraggable ? "none" : "auto",
+          touchAction: isDraggable ? "none" : "auto",
         }}
       >
         {showPosition ? (

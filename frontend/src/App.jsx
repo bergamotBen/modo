@@ -11,7 +11,7 @@ import {
   PersonCircle,
   PlusCircle,
   CheckCircle,
-  ExclamationCircle,
+  Circle,
 } from "react-bootstrap-icons";
 
 export default function App() {
@@ -35,7 +35,7 @@ export default function App() {
   }, []);
 
   return (
-    <main className="mx-4">
+    <main className="mx-4 mb-5 pb-3">
       {session ? (
         <>
           <Outlet
@@ -45,9 +45,11 @@ export default function App() {
             }}
           />
 
-          <Navbar fixed="bottom">
-            <Container className="p-4">
-              <Navbar.Brand href="/">MODO</Navbar.Brand>
+          <Navbar fixed="bottom" bg="white">
+            <Container className="px-4 py-1">
+              <Navbar.Brand className="ms-2" href="/">
+                MODO
+              </Navbar.Brand>
               <Nav activeKey={location.pathname}>
                 <Button
                   variant="Link"
@@ -62,7 +64,7 @@ export default function App() {
                   eventKey="/to-do"
                   className="text-secondary"
                 >
-                  <ExclamationCircle size={32} className="text-secondary" />
+                  <Circle size={32} className="text-secondary" />
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
