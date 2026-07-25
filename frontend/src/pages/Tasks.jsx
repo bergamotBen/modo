@@ -82,7 +82,8 @@ export default function Tasks() {
 
   const handleRemoveTask = async (idToRemove) => {
     const filteredList = taskList.filter((task) => task.id !== idToRemove);
-    await saveAndSyncPriorities(filteredList);
+    setTaskList(filteredList);
+    await loadTasks();
   };
 
   useEffect(() => {

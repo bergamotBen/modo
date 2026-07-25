@@ -10,6 +10,7 @@ import Tasks from "./pages/Tasks.jsx";
 import User from "./pages/User.jsx";
 import Login from "./pages/Login.jsx";
 import { TaskProvider } from "./context/TaskContext.jsx";
+import { ToastProvider } from "./context/ToastContext.jsx";
 // react-bootstrap docs: https://react-bootstrap.netlify.app/
 
 /**
@@ -66,7 +67,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <TaskProvider>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </TaskProvider>
   </React.StrictMode>,
 );

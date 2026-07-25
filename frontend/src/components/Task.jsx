@@ -14,6 +14,8 @@ import {
   archiveTask,
 } from "../services/tasks";
 import { Button } from "react-bootstrap";
+import { useToast } from "../context/ToastContext";
+
 export default function Task({
   buttons,
   showPosition,
@@ -30,6 +32,7 @@ export default function Task({
   const [isArchived, setIsArchived] = useState(task.archived);
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useOutletContext();
+  const { showToast } = useToast();
 
   useEffect(() => {
     setIsDone(task.complete);
@@ -44,8 +47,10 @@ export default function Task({
     try {
       if (nextState) {
         await markAsComplete(userId, task.id);
+        showToast("Moved to DONE");
       } else {
         await markAsIncomplete(userId, task.id);
+        showToast("Moved to TODO");
       }
       setIsDone(nextState);
 
@@ -75,6 +80,7 @@ export default function Task({
       console.error("Failed to archive task:", error);
     } finally {
       setIsLoading(false);
+      showToast("Task deleted");
     }
   }
 

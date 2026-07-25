@@ -19,6 +19,7 @@ BEGIN
     WHERE t."user" = incoming_user_uuid
       AND t.active = false    -- Only count tasks where active is false
       AND t.complete = false  -- Only count tasks where complete is false
+      AND t.archived = false
   );
   
   RETURN NEW;

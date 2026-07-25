@@ -4,12 +4,13 @@ import Button from "react-bootstrap/esm/Button";
 import { supabase } from "../lib/supabase";
 import { useState } from "react";
 import { useTasks } from "../context/TaskContext";
+import { useToast } from "../context/ToastContext";
 
 export default function AddTask({ showModal, handleClose, userId }) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const { refreshTasks } = useTasks();
-
+  const { showToast } = useToast();
   const handleCancel = () => {
     setContent("");
     handleClose();
@@ -38,6 +39,7 @@ export default function AddTask({ showModal, handleClose, userId }) {
       setContent("");
       refreshTasks();
       handleClose();
+      showToast("Task added");
     }
   };
 

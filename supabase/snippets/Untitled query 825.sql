@@ -19,6 +19,7 @@ BEGIN
       WHERE "user" = NEW."user"
         AND active = false
         AND complete = false
+        AND archived = false
     )
     UPDATE public.tasks AS t
     SET priority = r.new_priority
