@@ -21,6 +21,7 @@ export default function Done() {
       try {
         const allTasks = await getTasks(userId, {
           complete: true,
+          archived: false,
         });
         setTasks(allTasks);
       } catch (error) {

@@ -5,6 +5,7 @@ export async function getTasks(
   {
     complete = null,
     active = null,
+    archived = null,
     orderBy = "priority",
     ascending = true,
   } = {},
@@ -18,7 +19,10 @@ export async function getTasks(
   }
 
   if (active !== null) {
-    query = query.eq("active", complete);
+    query = query.eq("active", active);
+  }
+  if (archived !== null) {
+    query = query.eq("archived", archived);
   }
   query = query.order(orderBy, { ascending });
 
@@ -35,6 +39,18 @@ export async function markAsComplete(userId, taskId) {
       complete: true,
       active: false,
       completed_at: new Date().toISOString(),
+    })
+    .eq("id", taskId)
+    .eq("user", userId)
+    .select();
+}
+
+export async function archiveTask(userId, taskId) {
+  const { data, error } = await supabase
+    .from("tasks")
+    .update({
+      archived: true,
+      active: false,
     })
     .eq("id", taskId)
     .eq("user", userId)

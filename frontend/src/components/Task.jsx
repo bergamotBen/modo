@@ -8,7 +8,11 @@ import {
   StopCircle,
   Trash3,
 } from "react-bootstrap-icons";
-import { markAsComplete, markAsIncomplete } from "../services/tasks";
+import {
+  markAsComplete,
+  markAsIncomplete,
+  archiveTask,
+} from "../services/tasks";
 import { Button } from "react-bootstrap";
 export default function Task({
   buttons,
@@ -23,6 +27,7 @@ export default function Task({
   isDraggable = false,
 }) {
   const [isDone, setIsDone] = useState(task.complete);
+  const [isArchived, setIsArchived] = useState(task.archived);
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useOutletContext();
 
@@ -49,6 +54,25 @@ export default function Task({
       }
     } catch (error) {
       console.error("Failed to update task status:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleDelete() {
+    setIsLoading(true);
+
+    try {
+      if (!isArchived) {
+        await archiveTask(userId, task.id);
+        setIsArchived(true);
+
+        if (onStatusChange) {
+          onStatusChange(task.id);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to archive task:", error);
     } finally {
       setIsLoading(false);
     }
@@ -130,7 +154,11 @@ export default function Task({
           )}
           {buttons.includes("delete") && (
             <Link className="mx-1">
-              <Trash3 size={26} className="text-secondary" />
+              <Trash3
+                size={26}
+                onClick={handleDelete}
+                className="text-secondary"
+              />
             </Link>
           )}
         </Card.Footer>
