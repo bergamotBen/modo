@@ -51,6 +51,7 @@ export async function archiveTask(userId, taskId) {
     .update({
       archived: true,
       active: false,
+      priority: null,
     })
     .eq("id", taskId)
     .eq("user", userId)

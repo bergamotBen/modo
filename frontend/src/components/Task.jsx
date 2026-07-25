@@ -47,10 +47,10 @@ export default function Task({
     try {
       if (nextState) {
         await markAsComplete(userId, task.id);
-        showToast("Moved to DONE", "success");
+        showToast("Moved to DONE");
       } else {
         await markAsIncomplete(userId, task.id);
-        showToast("Moved to TODO", "success");
+        showToast("Moved to TODO");
       }
       setIsDone(nextState);
 
@@ -80,6 +80,7 @@ export default function Task({
       console.error("Failed to archive task:", error);
     } finally {
       setIsLoading(false);
+      showToast("Task deleted");
     }
   }
 
