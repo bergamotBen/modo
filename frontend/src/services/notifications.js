@@ -17,11 +17,8 @@ export async function schedulePush(userId, duration, title, body) {
     .select("id")
     .single();
 
-  if (data) {
-    return data.id;
-  } else {
-    return error;
-  }
+  if (error) throw error;
+  return data.id;
 }
 
 export async function cancelPush(pushId) {
