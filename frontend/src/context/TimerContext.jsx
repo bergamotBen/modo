@@ -6,7 +6,6 @@ import {
   useEffect,
 } from "react";
 import { cancelPush, schedulePush } from "../services/notifications";
-import { useOutletContext } from "react-router-dom";
 
 const TimerContext = createContext();
 

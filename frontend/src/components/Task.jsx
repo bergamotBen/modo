@@ -49,7 +49,7 @@ export default function Task({
       if (timeRemaining === 0) {
         startTimer(task.id, userId, 25);
       } else {
-        startTimer(task.id, timeRemaining);
+        startTimer(task.id, userId, timeRemaining);
         setTimeRemaining(0);
       }
     }
