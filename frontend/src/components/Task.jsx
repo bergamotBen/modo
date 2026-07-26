@@ -172,6 +172,7 @@ export default function Task({
                 size={26}
                 className="text-secondary"
                 onClick={handleStopTimer}
+                disabled={!timerRunning}
               />
             </Link>
           )}

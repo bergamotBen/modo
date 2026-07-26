@@ -4,6 +4,7 @@ import {
   useState,
   useCallback,
   useEffect,
+  useRef,
 } from "react";
 import { cancelPush, schedulePush } from "../services/notifications";
 
@@ -13,7 +14,7 @@ export function TimerProvider({ children }) {
   const [timer, setTimer] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState("");
-  const [pushId, setPushId] = useState(null);
+  const pushId = useRef();
 
   useEffect(() => {
     let intervalId = null;
@@ -32,21 +33,20 @@ export function TimerProvider({ children }) {
 
   const startTimer = useCallback(
     async (taskId, userId, timeRemaining = null) => {
-      let res = null;
       setActiveTaskId(taskId);
       if (timeRemaining) {
         setTimer(timeRemaining);
-        res = await schedulePush(
+        const res = await schedulePush(
           userId,
           timeRemaining,
           "TIMES UP",
           "JOBS A GOODUN",
         );
-        setPushId(res);
+        pushId.current = res;
       } else {
         setTimer(25);
-        res = await schedulePush(userId, 25, "TIMES UP", "JOBS A GOODUN");
-        setPushId(res);
+        const res = await schedulePush(userId, 25, "TIMES UP", "JOBS A GOODUN");
+        pushId.current = res;
       }
       setTimerRunning(true);
     },
@@ -58,8 +58,10 @@ export function TimerProvider({ children }) {
   }, []);
 
   const stopTimer = useCallback(() => {
+    cancelPush(pushId.current);
     setTimerRunning(false);
     setTimer(0);
+    pushId.current = null;
   }, []);
 
   return (
