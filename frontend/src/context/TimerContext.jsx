@@ -72,7 +72,6 @@ export function TimerProvider({ children }) {
         stopTimer,
         timerRunning,
         timer,
-        setTimerRunning,
       }}
     >
       {children}

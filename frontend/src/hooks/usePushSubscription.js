@@ -26,7 +26,7 @@ export function usePushSubscription() {
             .from("push_subscriptions")
             .select("id")
             .eq("user_id", user.id)
-            .eq("subscription->>endpoint", subscription.endpoint)
+            .eq("endpoint", subscription.endpoint)
             .maybeSingle();
 
           setIsSubscribed(!!data);
