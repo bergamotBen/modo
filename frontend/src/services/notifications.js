@@ -42,5 +42,5 @@ export async function schedulePush(userId, duration, title, body) {
 }
 
 export async function cancelPush(pushId) {
-  await supabase.from("scheduledPushes").delete().eq("id", pushId);
+  await supabase.from("scheduled_pushes").delete().eq("id", pushId);
 }
