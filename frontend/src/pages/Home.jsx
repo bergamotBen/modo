@@ -8,11 +8,10 @@ import { useTasks } from "../context/TaskContext";
 import { useTimer } from "../context/TimerContext";
 
 export default function Home() {
-  const [breaktime, setBreaktime] = useState(false);
   const [tasks, setTasks] = useState([]);
   const { userId, userName } = useOutletContext();
   const { refreshKey } = useTasks();
-  const { timerRunning } = useTimer();
+  const { timerRunning, breakTime } = useTimer();
 
   useEffect(() => {
     async function loadTasks() {
@@ -42,7 +41,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      {breaktime ? <Breaktime /> : null}
+      {breakTime ? <Breaktime userId={userId} /> : null}
       <div className="h3, p-2">What's on the cards today {userName}?</div>
       {tasks.map((task) => {
         const buttons = [];
