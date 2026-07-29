@@ -5,12 +5,13 @@ import { useState, useEffect } from "react";
 import { getTasks } from "../services/tasks";
 import { useOutletContext } from "react-router-dom";
 import { useTasks } from "../context/TaskContext";
+import { useTimer } from "../context/TimerContext";
 
 export default function Home() {
-  const [breaktime, setBreaktime] = useState(false);
   const [tasks, setTasks] = useState([]);
   const { userId, userName } = useOutletContext();
   const { refreshKey } = useTasks();
+  const { timerRunning, breakTime } = useTimer();
 
   useEffect(() => {
     async function loadTasks() {
@@ -35,16 +36,17 @@ export default function Home() {
       }
     }
     if (userId) loadTasks();
-  }, [userId, refreshKey]);
+  }, [userId, refreshKey, timerRunning]);
+
   return (
     <div>
       <Header />
-      {breaktime ? <Breaktime /> : null}
+      {breakTime ? <Breaktime userId={userId} /> : null}
       <div className="h3, p-2">What's on the cards today {userName}?</div>
       {tasks.map((task) => {
         const buttons = [];
         if (task.active) {
-          buttons.push("pause");
+          buttons.push("play");
           buttons.push("stop");
         }
 
