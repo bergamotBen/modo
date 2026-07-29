@@ -13,8 +13,8 @@ const TimerContext = createContext();
 export function TimerProvider({ children }) {
   const [timer, setTimer] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [activeTaskId, setActiveTaskId] = useState("");
   const pushId = useRef();
+  const activeTaskId = useRef();
 
   useEffect(() => {
     let intervalId = null;
@@ -33,11 +33,12 @@ export function TimerProvider({ children }) {
 
   const startTimer = useCallback(
     async (taskId, userId, timeRemaining = null) => {
-      setActiveTaskId(taskId);
+      activeTaskId.current = taskId;
       if (timeRemaining) {
         setTimer(timeRemaining);
         const res = await schedulePush(
           userId,
+          activeTaskId.current,
           timeRemaining,
           "TIMES UP",
           "JOBS A GOODUN",
