@@ -33,6 +33,7 @@ export function TimerProvider({ children }) {
 
   const startTimer = useCallback(
     async (taskId, userId, timeRemaining = null) => {
+      console.log(taskId);
       activeTaskId.current = taskId;
       if (timeRemaining) {
         setTimer(timeRemaining);

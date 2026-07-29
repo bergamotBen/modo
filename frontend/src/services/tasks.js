@@ -32,7 +32,7 @@ export async function getTasks(
   return data;
 }
 
-export async function markAsComplete(userId, taskId) {
+export async function markAsComplete(userId, taskId, active = null) {
   const { data, error } = await supabase
     .from("tasks")
     .update({
@@ -43,6 +43,17 @@ export async function markAsComplete(userId, taskId) {
     .eq("id", taskId)
     .eq("user", userId)
     .select();
+
+  if (active) {
+    const { data, error } = await supabase
+      .from("tasks")
+      .update({
+        active: true,
+      })
+      .eq("priority", 1)
+      .eq("user", userId)
+      .select();
+  }
 }
 
 export async function archiveTask(userId, taskId) {

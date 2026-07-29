@@ -16,6 +16,7 @@ import {
 import { Button } from "react-bootstrap";
 import { useToast } from "../context/ToastContext";
 import { useTimer } from "../context/TimerContext";
+import { useTasks } from "../context/TaskContext";
 
 export default function Task({
   buttons,
@@ -36,6 +37,10 @@ export default function Task({
   const { userId } = useOutletContext();
   const { showToast } = useToast();
   const { timerRunning, pauseTimer, startTimer, timer, stopTimer } = useTimer();
+  const { refreshTasks } = useTasks();
+
+  const showDoneButton =
+    buttons.includes("done") || (task.active && task.sessions >= 1);
 
   useEffect(() => {
     setIsDone(task.complete);
@@ -66,7 +71,8 @@ export default function Task({
 
     try {
       if (nextState) {
-        await markAsComplete(userId, task.id);
+        await markAsComplete(userId, task.id, task.active);
+        refreshTasks();
         showToast("Moved to DONE");
       } else {
         await markAsIncomplete(userId, task.id);
@@ -166,18 +172,17 @@ export default function Task({
             </Link>
           )}
 
-          {buttons.includes("stop") && (
+          {buttons.includes("stop") && timerRunning && (
             <Link className="mx-1">
               <StopCircle
                 size={26}
                 className="text-secondary"
                 onClick={handleStopTimer}
-                disabled={!timerRunning}
               />
             </Link>
           )}
 
-          {buttons.includes("done") && (
+          {showDoneButton && (
             <Button
               id={`task-toggle-${task.id}`}
               variant={"outline-secondary"}
