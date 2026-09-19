@@ -1,25 +1,10 @@
 import Container from "react-bootstrap/esm/Container";
+import { useTimer } from "../context/TimerContext";
 import { useState, useEffect } from "react";
 
 function Timer() {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime((prevTime) => {
-        if (prevTime === 1) {
-          clearInterval(interval);
-          return <br />;
-        }
-        return prevTime - 1;
-      });
-    }, 60000);
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, []);
-  return time;
+  const { timer } = useTimer();
+  return timer > 0 ? timer : null;
 }
 export default function Header({ title }) {
   if (title) {

@@ -8,7 +8,7 @@ SELECT cron.schedule(
     $$
     SELECT net.http_post(
         url := 'http://host.docker.internal:50021/functions/v1/send-push',
-        headers := '{"Content-Type": "application/json", "Authorization": "Bearer sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz"}'::jsonb,
+        headers := '{"Content-Type": "application/json", "Authorization": "Bearer REDACTED"}'::jsonb,
         body := payload
     )
     FROM public.scheduled_pushes
