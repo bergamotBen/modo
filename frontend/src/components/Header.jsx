@@ -13,7 +13,7 @@ function Timer() {
         }
         return prevTime - 1;
       });
-    }, 3000);
+    }, 60000);
 
     return () => {
       if (interval) clearInterval(interval);
