@@ -22,7 +22,7 @@ export default function Tasks() {
   const { userId } = useOutletContext();
   const [taskList, setTaskList] = useState([]);
   const { refreshKey } = useTasks();
-
+  const [timeToCompletion, setTimeToCompletion] = useState();
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -86,17 +86,52 @@ export default function Tasks() {
     await loadTasks();
   };
 
+  const calculateTimeToCompletion = (nTasks) => {
+    const formatTime = (minutes) => {
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+
+      if (hours === 0) return `${mins}min`;
+      if (mins === 0) return `${hours}hr`;
+      return `${hours}h ${mins}m`;
+    };
+
+    if (nTasks > 3) {
+      const longBreaks = Math.floor(nTasks / 4);
+      const totalTime = (nTasks + longBreaks) * 30;
+      setTimeToCompletion(formatTime(totalTime));
+    } else {
+      setTimeToCompletion(formatTime(nTasks * 30));
+    }
+  };
+
   useEffect(() => {
-    if (userId) loadTasks();
+    if (userId) {
+      loadTasks();
+    }
   }, [userId, refreshKey]);
+
+  useEffect(() => {
+    calculateTimeToCompletion(taskList.length);
+  }, [taskList]);
 
   return (
     <>
       <Header title="TODO" />
-      {taskList.length > 0 ? (
-        <div>You've got {taskList.length} unfinished symphonies.</div>
+
+      {taskList.length != 0 && (
+        <div className="p-2">
+          Estimated time to completion: {timeToCompletion}
+        </div>
+      )}
+      {taskList.length === 0 ? (
+        <div className="p-2">An empty todo list, such an achiever!</div>
+      ) : taskList.length === 1 ? (
+        <div className="p-2">You've got an unfinished symphony.</div>
       ) : (
-        <div>An empty todo list, such an achiever!</div>
+        <div className="p-2">
+          You've got {taskList.length} unfinished symphonies.
+        </div>
       )}
       <DndContext
         sensors={sensors}
